@@ -51,18 +51,18 @@ public:
     int mask1[26];
     int mask2[26];
           
-    for (int i = 0; i < 26; i++) mask1[i] = 0;
-    for (int i = 0; i < 26; i++) mask2[i] = 0;
+    for (int i = 0; i < 26; ++i) mask1[i] = 0;
+    for (int i = 0; i < 26; ++i) mask2[i] = 0;
 
     for (int i = 0; i < this->getLength(); i++) {
-      mask1[str[i] - 'a'] = 1;
+      mask1[this->str[i] - 'a'] = 1;
     }
 
     for (int i = 0; i < other.getLength(); i++) {
       mask2[other[i] - 'a'] = 1;
     }
 
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 26; ++i) {
       unless (mask1[i] <= mask2[i]) {
         return false;
       }

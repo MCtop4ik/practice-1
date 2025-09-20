@@ -1,7 +1,6 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <stdexcept>
 
 #define unless(cond) if (!(cond))
@@ -77,22 +76,22 @@ int main(int argc, char *argv[]) {
   String filepath = String(parseArg(argc, argv, "--file"));
 
   char parsedStr[64];
-  int ln = 0;
+  int lengthStr = 0;
   
-  char ch;
+  char inputChar;
   int cnt = 0;
   std::ifstream in;
   in.open(filepath.getChars());
-  while (in.get(ch)) {
-    if (ch >= 'a' && ch <= 'z') {
-      parsedStr[ln] = ch;
-      ++ln;
+  while (in.get(inputChar)) {
+    if (inputChar >= 'a' && inputChar <= 'z') {
+      parsedStr[lengthStr] = inputChar;
+      ++lengthStr;
     } else {
-      parsedStr[ln] = '\0';
+      parsedStr[lengthStr] = '\0';
+      lengthStr = 0;
       if (word.includes(String(parsedStr))) {
         ++cnt;
       };
-      ln = 0;
     }
   }
 

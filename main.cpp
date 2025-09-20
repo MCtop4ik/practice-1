@@ -81,9 +81,10 @@ int main(int argc, char *argv[]) {
 
   char parsedStr[64];
   int lengthStr = 0;
+
+  unsigned int cnt = 0;
   
   char inputChar;
-  int cnt = 0;
   std::ifstream in;
   in.open(filepath.getChars());
   while (in.get(inputChar)) {

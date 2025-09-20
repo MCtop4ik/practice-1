@@ -7,7 +7,7 @@
 
 char *parseArg(int argc, char *argv[], const char *targetArg) {
   bool isTarget = false;
-  char *argument = "";
+  char *argument = {};
   for (int i = 0; i < argc; ++i) {
     if (isTarget) {
       argument = argv[i];
@@ -71,6 +71,10 @@ public:
   }
 };
 
+bool isLetter(char ch) {
+  return ch >= 'a' && ch <= 'z';
+}
+
 int main(int argc, char *argv[]) {
   String word = String(parseArg(argc, argv, "--word"));
   String filepath = String(parseArg(argc, argv, "--file"));
@@ -83,7 +87,7 @@ int main(int argc, char *argv[]) {
   std::ifstream in;
   in.open(filepath.getChars());
   while (in.get(inputChar)) {
-    if (inputChar >= 'a' && inputChar <= 'z') {
+    if (isLetter(inputChar)) {
       parsedStr[lengthStr] = inputChar;
       ++lengthStr;
     } else {

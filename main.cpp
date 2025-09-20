@@ -7,7 +7,7 @@
 
 char *parseArg(int argc, char *argv[], const char *targetArg) {
   bool isTarget = false;
-  char *argument;
+  char *argument = "";
   for (int i = 0; i < argc; i++) {
     if (isTarget) {
       argument = argv[i];

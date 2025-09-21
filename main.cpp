@@ -103,14 +103,9 @@ public:
   }
 };
 
-
-
 int main(int argc, char *argv[]) {
   String kWord = String(ParseArg(argc, argv, "--word"));
   String kFilepath = String(ParseArg(argc, argv, "--file"));
-
-  char parsedStr[64];
-  unsigned int lengthStr = 0;
 
   unsigned int cnt = 0;
   

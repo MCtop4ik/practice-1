@@ -20,23 +20,38 @@ char *parseArg(int argc, char *argv[], const char *targetArg) {
   return argument;
 }
 
+namespace StringUtils {
+  bool isLowerCaseLetter(char ch) {
+    return (ch >= 'a' && ch <= 'z');
+  }
+
+  bool isUpperCaseLetter(char ch) {
+    return (ch >= 'A' && ch <= 'Z');
+  }
+
+  bool isLetter(char ch) {
+    return isLowerCaseLetter(ch) || isUpperCaseLetter(ch);
+  }
+}
+
 class String {
 private:
   char str[64];
   size_t ln;
+  const unsigned int kEnglishAlphabetLength = 26;
 
 public:
   String(char *initStr) { 
-    this->ln = strlen(initStr); 
+    ln = strlen(initStr); 
     strncpy(str, initStr, ln);
     str[ln] = '\0';
   }
 
-  char operator[](int index) {
+  char operator[](int index) const {
     return str[index];
   }
 
-  char at(int index) {
+  char at(int index) const {
     if (index >= ln || index < 0)
       throw std::out_of_range("Wrong index for String");
     return str[index];
@@ -51,26 +66,37 @@ public:
 
   size_t getLength() const { return ln; }
 
-  bool includes(String other) {
-    int mask1[26];
-    int mask2[26];
+  void initMask(int* mask) {
+    for (int i = 0; i < kEnglishAlphabetLength; ++i) {
+      mask[i] = 0;
+    }
+  }
+
+  void createMask(const String& maskStr, int* mask) {
+    char sym = {};
+    const unsigned int kUpperLettersShift = kEnglishAlphabetLength;
+    for (int i = 0; i < static_cast<int>(maskStr.getLength()); i++) {
+      sym = maskStr.at(i);
+      if (StringUtils::isLowerCaseLetter(sym)) {
+        mask[sym - 'a'] = 1;
+      }
+      if (StringUtils::isUpperCaseLetter(sym)) {
+        mask[sym - 'A' + kUpperLettersShift] = 1;
+      }
+    }
+  }
+
+  bool includes(const String& other) {
+    int mask1[54];
+    int mask2[54];
+
+    initMask(mask1);
+    initMask(mask2);
           
-    for (int i = 0; i < 26; ++i) {
-      mask1[i] = 0;
-    }
-    for (int i = 0; i < 26; ++i) {
-      mask2[i] = 0;
-    }
+    createMask(*this, mask1);
+    createMask(other, mask2);
 
-    for (int i = 0; i < this->getLength(); i++) {
-      mask1[this->at(i) - 'a'] = 1;
-    }
-
-    for (int i = 0; i < other.getLength(); i++) {
-      mask2[other.at(i) - 'a'] = 1;
-    }
-
-    for (int i = 0; i < 26; ++i) {
+    for (int i = 0; i < kEnglishAlphabetLength; ++i) {
       unless (mask1[i] <= mask2[i]) {
         return false;
       }
@@ -79,16 +105,14 @@ public:
   }
 };
 
-bool isLetter(char ch) {
-  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
-}
+
 
 int main(int argc, char *argv[]) {
   String kWord = String(parseArg(argc, argv, "--word"));
   String kFilepath = String(parseArg(argc, argv, "--file"));
 
   char parsedStr[64];
-  int lengthStr = 0;
+  unsigned int lengthStr = 0;
 
   unsigned int cnt = 0;
   
@@ -96,7 +120,7 @@ int main(int argc, char *argv[]) {
   std::ifstream in;
   in.open(kFilepath.getChars());
   while (in.get(inputChar)) {
-    if (isLetter(inputChar)) {
+    if (StringUtils::isLetter(inputChar)) {
       parsedStr[lengthStr] = inputChar;
       ++lengthStr;
     } else {

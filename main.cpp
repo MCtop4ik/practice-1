@@ -37,26 +37,30 @@ public:
   }
 
   char at(int index) {
-    if (index >= this->ln || index < 0)
+    if (index >= ln || index < 0)
       throw std::out_of_range("Wrong index for String");
     return str[index];
   }
 
   void log() const {
-    std::cout << "String: " << this->str << std::endl;
-    std::cout << "String Length: " << this->ln << std::endl;
+    std::cout << "String: " << str << std::endl;
+    std::cout << "String Length: " << ln << std::endl;
   }
 
   char *getChars() { return str; }
 
-  size_t getLength() const { return this->ln; }
+  size_t getLength() const { return ln; }
 
   bool includes(String other) {
     int mask1[26];
     int mask2[26];
           
-    for (int i = 0; i < 26; ++i) mask1[i] = 0;
-    for (int i = 0; i < 26; ++i) mask2[i] = 0;
+    for (int i = 0; i < 26; ++i) {
+      mask1[i] = 0;
+    }
+    for (int i = 0; i < 26; ++i) {
+      mask2[i] = 0;
+    }
 
     for (int i = 0; i < this->getLength(); i++) {
       mask1[this->at(i) - 'a'] = 1;

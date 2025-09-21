@@ -76,7 +76,7 @@ public:
 };
 
 bool isLetter(char ch) {
-  return ch >= 'a' && ch <= 'z';
+  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
 }
 
 int main(int argc, char *argv[]) {

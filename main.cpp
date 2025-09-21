@@ -3,8 +3,6 @@
 #include <iostream>
 #include <stdexcept>
 
-#define unless(cond) if (!(cond))
-
 char *ParseArg(int argc, char *argv[], const char *targetArg) {
   bool isTarget = false;
   char *argument = {};
@@ -97,7 +95,7 @@ public:
     CreateMask(other, mask2);
 
     for (int i = 0; i < kEnglishAlphabetLength; ++i) {
-      unless (mask1[i] <= mask2[i]) {
+      if (!(mask1[i] <= mask2[i])) {
         return false;
       }
     }

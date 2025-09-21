@@ -84,8 +84,8 @@ bool isLetter(char ch) {
 }
 
 int main(int argc, char *argv[]) {
-  String word = String(parseArg(argc, argv, "--word"));
-  String filepath = String(parseArg(argc, argv, "--file"));
+  String kWord = String(parseArg(argc, argv, "--word"));
+  String kFilepath = String(parseArg(argc, argv, "--file"));
 
   char parsedStr[64];
   int lengthStr = 0;
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
   
   char inputChar;
   std::ifstream in;
-  in.open(filepath.getChars());
+  in.open(kFilepath.getChars());
   while (in.get(inputChar)) {
     if (isLetter(inputChar)) {
       parsedStr[lengthStr] = inputChar;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
     } else {
       parsedStr[lengthStr] = '\0';
       lengthStr = 0;
-      if (word.includes(String(parsedStr))) {
+      if (kWord.includes(String(parsedStr))) {
         ++cnt;
       };
     }

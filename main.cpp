@@ -116,20 +116,13 @@ int main(int argc, char *argv[]) {
 
   unsigned int cnt = 0;
   
-  char inputChar;
+  char inputWord[64];
   std::ifstream in;
   in.open(kFilepath.GetChars());
-  while (in.get(inputChar)) {
-    if (StringUtils::IsLetter(inputChar)) {
-      parsedStr[lengthStr] = inputChar;
-      ++lengthStr;
-    } else {
-      parsedStr[lengthStr] = '\0';
-      lengthStr = 0;
-      if (kWord.Includes(String(parsedStr))) {
+  while (in.getline(inputWord, 64, ' ')) {
+    if (kWord.Includes(String(inputWord))) {
         ++cnt;
-      };
-    }
+    };
   }
 
   std::cout << cnt << std::endl;

@@ -33,6 +33,10 @@ public:
   }
 
   char operator[](int index) {
+    return str[index];
+  }
+
+  char at(int index) {
     if (index >= this->ln || index < 0)
       throw std::out_of_range("Wrong index for String");
     return str[index];
@@ -55,11 +59,11 @@ public:
     for (int i = 0; i < 26; ++i) mask2[i] = 0;
 
     for (int i = 0; i < this->getLength(); i++) {
-      mask1[this->str[i] - 'a'] = 1;
+      mask1[this->at(i) - 'a'] = 1;
     }
 
     for (int i = 0; i < other.getLength(); i++) {
-      mask2[other[i] - 'a'] = 1;
+      mask2[other.at(i) - 'a'] = 1;
     }
 
     for (int i = 0; i < 26; ++i) {

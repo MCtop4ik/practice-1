@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdexcept>
 
+const int kStringCapacity = 64;
+
 char *ParseArg(int argc, char *argv[], const char *targetArg) {
   bool isTarget = false;
   char *argument = {};
@@ -32,9 +34,9 @@ namespace StringUtils {
   }
 }
 
-class String {
+template <int string_capacity> class String {
 private:
-  char str[64];
+  char str[string_capacity];
   size_t ln;
   const unsigned int kEnglishAlphabetLength = 26;
 
@@ -50,8 +52,9 @@ public:
   }
 
   char At(int index) const {
-    if (index >= ln || index < 0)
+    if (index >= ln || index < 0) {
       throw std::out_of_range("Wrong index for String");
+    }
     return str[index];
   }
 
@@ -104,16 +107,16 @@ public:
 };
 
 int main(int argc, char *argv[]) {
-  String kWord = String(ParseArg(argc, argv, "--word"));
-  String kFilepath = String(ParseArg(argc, argv, "--file"));
+  String kWord = String<kStringCapacity>(ParseArg(argc, argv, "--word"));
+  String kFilepath = String<kStringCapacity>(ParseArg(argc, argv, "--file"));
 
   unsigned int cnt = 0;
   
-  char inputWord[64];
+  char inputWord[kStringCapacity];
   std::ifstream in;
   in.open(kFilepath.GetChars());
-  while (in.getline(inputWord, 64, ' ')) {
-    if (kWord.Includes(String(inputWord))) {
+  while (in.getline(inputWord, kStringCapacity, ' ')) {
+    if (kWord.Includes(String<kStringCapacity>(inputWord))) {
         ++cnt;
     };
   }

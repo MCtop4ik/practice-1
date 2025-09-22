@@ -95,7 +95,7 @@ public:
     CreateMask(other, mask2);
 
     for (int i = 0; i < kEnglishAlphabetLength; ++i) {
-      if (!(mask1[i] <= mask2[i])) {
+      if (mask1[i] > mask2[i]) {
         return false;
       }
     }
